@@ -1,0 +1,154 @@
+###
+PUT http://localhost:8000/api/v1/merchant/stepOne
+Content-Type: application/json
+{
+  "userId": "654b92a9c21e5bdc84039c80",
+  "stepOneData": {
+    "merchantInformation": {
+      "legalName": "Example Legal Name",
+      "typeOfOrganization": "Sole Proprietorship",
+      "merchantBrandName": "Example Brand",
+      "merchantLogo": "logo.jpg",
+      "status": "Active"
+    },
+    "certificateOfIncorporation": {
+      "NTN": "123456",
+      "Dated": "2023-01-15",
+      "regulatoryAuthorityName": "Example Authority",
+      "incorporationEvidence": "certificate.pdf"
+    },
+    "salesTaxRegistration": {
+      "salesTaxRegistration": "789012",
+      "Attachment": "attachment.jpg",
+      "Dated": "2023-01-15",
+      "regulatoryAuthorityName": "Example Authority",
+      "incorporationEvidence": "sales_tax_cert.pdf"
+    },
+    "nationalTaxNumber": {
+      "nationalTaxNumber": "456789",
+      "attachment": "ntn.jpg"
+    },
+    "ceo": {
+      "name": "CEO Name",
+      "address": "CEO Address",
+      "city": "CEO City",
+      "mobile": "1234567890",
+      "email": "ceo@example.com"
+    },
+    "Director": [
+      {
+      "name": "Director Name 1",
+      "cnic": "3456789012345",
+      "address": "Director Address",
+      "city": "Director City",
+      "mobile": "9876543210",
+      "email": "director@example.com"
+    },
+    {
+      "name": "Director Name 2",
+      "cnic": "3456789012345",
+      "address": "Director Address",
+      "city": "Director City",
+      "mobile": "9876543210",
+      "email": "director@example.com"
+    }
+    ]
+  }
+}
+###
+PUT http://localhost:8000/api/v1/merchant/stepTwo
+Content-Type: application/json
+{
+  "userId": "654b92a9c21e5bdc84039c80",
+  "stepTwoData": {
+    "businessDetails": {
+      "mainLineOfBusiness": "Main Business",
+      "address": "Business Address",
+      "city": "Business City",
+      "mobile": "1234567890",
+      "email": "business@example.com",
+      "website": "http://example.com"
+    },
+    "additionDetailsOfBusiness": {
+      "address": "Additional Address",
+      "city": "Additional City",
+      "mobile": "9876543210",
+      "email": "additional@example.com"
+    }
+  }
+}
+###
+PUT http://localhost:8000/api/v1/merchant/stepThree
+Content-Type: application/json
+{
+  "userId": "654b92a9c21e5bdc84039c80",
+  "stepThreeData": {
+    "operationalDetails": {
+      "primaryPOCFromMerchant": {
+        "name": "Primary POC Name",
+        "cnic": "1234567890123",
+        "designation": "POC Designation",
+        "email": "poc@example.com",
+        "mobile": "1234567890"
+      },
+      "secondayPOCFromMerchant": {
+        "name": "Secondary POC Name",
+        "cnic": "9876543210987",
+        "designation": "POC Designation",
+        "email": "poc@example.com",
+        "mobile": "9876543210"
+      }
+    },
+    "agreementDetails": {
+      "nameOfTheSignee": "Signee Name",
+      "cnic": "2345678901234",
+      "designation": "Signee Designation",
+      "email": "signee@example.com",
+      "dated": "2023-01-15",
+      "agreementEvidence": "agreement.pdf",
+      "placeOfExecution": "Execution Place"
+    },
+    "declaration": {
+      "nameOfSignee": "Declaration Signee Name",
+      "cnic": "3456789012345",
+      "designation": "Declaration Signee Designation",
+      "email": "declaration@example.com",
+      "dated": "2023-01-15",
+      "declarationEvidence": "declaration.pdf"
+    }
+  }
+}
+###
+PUT http://localhost:8000/api/v1/merchant/stepFour
+Content-Type: application/json
+{
+  "userId": "654b92a9c21e5bdc84039c80",
+  "stepFourData": {
+    "bankAccountDetails": {
+      "bankName": "Bank Name",
+      "accountTitle": "Account Title",
+      "accountNumber": "1234567890",
+      "iban": "IBAN12345",
+      "accountOpeningDate": "2023-01-15",
+      "branchName": "Branch Name",
+      "branchCode": "Branch Code",
+      "branchCity": "Branch City",
+      "lowerLimit": "1000",
+      "upperLimit": "5000"
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
