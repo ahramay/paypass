@@ -52,12 +52,11 @@ const MerchantInformation = ({
     const [loading, setLoading] = useState<boolean | false>(false)
     const [dialogIsOpen, setIsOpen] = useState(false)
 
-
-
     const {
         control,
         handleSubmit,
         register,
+        setValue,
         formState: { errors },
     } = useForm<any>({
         resolver: yupResolver(
@@ -94,12 +93,11 @@ const MerchantInformation = ({
         }
     }
     const onSubmit = (data: any) => {
-
         setLoading(true)
         apiOnboardingStepOne(data)
             .then((res) => {
                 onNext(data)
-                ShowToast('success',"Merchant Information Success fully saved")
+                ShowToast('success', 'Merchant Information Success fully saved')
                 console.log(res)
             })
             .catch((err) => {
@@ -107,9 +105,7 @@ const MerchantInformation = ({
             })
             .finally(() => {
                 setLoading(false)
-
             })
-      
     }
 
     const handleCNICChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +116,10 @@ const MerchantInformation = ({
 
     return (
         <>
-      <ConfirmToProceed dialogIsOpen={dialogIsOpen} setIsOpen={setIsOpen}/>
+            <ConfirmToProceed
+                dialogIsOpen={dialogIsOpen}
+                setIsOpen={setIsOpen}
+            />
             <div className="mb-8">
                 <h3 className="mb-2">Merchant Information</h3>
                 <p>Basic information for an account opening</p>
@@ -207,7 +206,6 @@ const MerchantInformation = ({
                             )}
                         </Upload>
                     </div> */}
-           
 
                     {/* ------------------------------------- Certificate of Incorporation / NTN ------------------------------------------- */}
                     {/* Heading For Certificate of Incorporation / NTN */}
@@ -222,6 +220,8 @@ const MerchantInformation = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('incorporationOrNtn')}
                                 placeholder="Enter Your Incorporation/NTN #"
                                 invalid={!!errors.incorporationOrNtn}
@@ -398,6 +398,8 @@ const MerchantInformation = ({
                             <span className="text-red-600">*</span>
                         </label>
                         <Input
+                            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            type="number"
                             {...register('nationalTaxNumber')}
                             placeholder="Enter  National Tax #"
                             invalid={!!errors.nationalTaxNumber}
@@ -482,10 +484,11 @@ const MerchantInformation = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('CeoMobile')}
                                 placeholder="e.g 0300-4568978"
                                 maxlength="12"
-                                required
                                 invalid={!!errors.CeoMobile}
                             />
                             <p className="text-red-600">
@@ -652,6 +655,8 @@ const MerchantInformation = ({
                                                 </span>
                                             </label>
                                             <Input
+                                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                type="number"
                                                 {...register(
                                                     `directors[${index}].mobile`
                                                 )}

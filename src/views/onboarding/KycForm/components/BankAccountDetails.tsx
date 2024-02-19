@@ -8,7 +8,7 @@ import {
     maxPastDate,
 } from '../config/dateSelectionForCertificate.config'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { apiOnboardingStepFour } from '@/services/onBoarding/onBoardingServices'
 import ShowToast from '@/components/ui/Notification/ShowToast'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -41,6 +41,7 @@ const BankDetails = ({
     const {
         handleSubmit,
         register,
+        setValue,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(bankDetailsSchema),
@@ -121,6 +122,8 @@ const BankDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('accountNumber')}
                                 placeholder="e.g 3251-555584255-88"
                                 invalid={!!errors.accountNumber}
@@ -170,6 +173,8 @@ const BankDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('branchCode')}
                                 placeholder="Enter Your Branch Code"
                                 invalid={!!errors.branchCode}

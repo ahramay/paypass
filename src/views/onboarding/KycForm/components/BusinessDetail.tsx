@@ -28,7 +28,12 @@ const BusinessDetail = ({
         onNextChange?.(values, 'businessDetails')
     }
 
-    const { handleSubmit, register,formState:{errors} } = useForm({resolver:yupResolver(businessDetailsSchema),
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(businessDetailsSchema),
         defaultValues: {
             mainLineOfBusiness: data.mainLineOfBusiness,
             website: data.website,
@@ -85,7 +90,7 @@ const BusinessDetail = ({
                             placeholder="Enter Main Line of Business"
                             invalid={!!errors.mainLineOfBusiness}
                         />
-                         <p className="text-red-600">
+                        <p className="text-red-600">
                             {errors.mainLineOfBusiness?.message?.toString()}
                         </p>
                     </div>
@@ -100,7 +105,7 @@ const BusinessDetail = ({
                             placeholder="Website Url e.g www.example.com"
                             invalid={!!errors.website}
                         />
-                         <p className="text-red-600">
+                        <p className="text-red-600">
                             {errors.website?.message?.toString()}
                         </p>
                     </div>
@@ -113,13 +118,15 @@ const BusinessDetail = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('mobile')}
                                 placeholder="e.g 0300-4568978"
                                 invalid={!!errors.mobile}
                             />
-                             <p className="text-red-600">
-                            {errors.mobile?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.mobile?.message?.toString()}
+                            </p>
                         </div>
                         {/*Business Email Input */}
                         <div className="mb-4">
@@ -132,9 +139,9 @@ const BusinessDetail = ({
                                 placeholder="e.g Fahad@gmail.com"
                                 invalid={!!errors.email}
                             />
-                             <p className="text-red-600">
-                            {errors.email?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.email?.message?.toString()}
+                            </p>
                         </div>
                     </div>
                     {/* Business Address Input */}
@@ -148,7 +155,7 @@ const BusinessDetail = ({
                             placeholder="Enter Your Street Address"
                             invalid={!!errors.address}
                         />
-                         <p className="text-red-600">
+                        <p className="text-red-600">
                             {errors.address?.message?.toString()}
                         </p>
                     </div>
@@ -165,9 +172,9 @@ const BusinessDetail = ({
                                 placeholder="e.g Punjab"
                                 invalid={!!errors.state}
                             />
-                             <p className="text-red-600">
-                            {errors.state?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.state?.message?.toString()}
+                            </p>
                         </div>
                         {/* business City Input */}
                         <div className="mb-4">
@@ -180,9 +187,9 @@ const BusinessDetail = ({
                                 placeholder="e.g Lahore"
                                 invalid={!!errors.city}
                             />
-                             <p className="text-red-600">
-                            {errors.city?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.city?.message?.toString()}
+                            </p>
                         </div>
                     </div>
 
@@ -200,13 +207,15 @@ const BusinessDetail = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('additionalMobile')}
                                 placeholder="e.g 0300-4568978"
                                 invalid={!!errors.additionalMobile}
                             />
-                             <p className="text-red-600">
-                            {errors.additionalMobile?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.additionalMobile?.message?.toString()}
+                            </p>
                         </div>
                         {/* Additional Branches/Offices Email Input */}
                         <div className="mb-4">
@@ -219,9 +228,9 @@ const BusinessDetail = ({
                                 placeholder="e.g Fahad@gmail.com"
                                 invalid={!!errors.additionalEmail}
                             />
-                             <p className="text-red-600">
-                            {errors.additionalEmail?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.additionalEmail?.message?.toString()}
+                            </p>
                         </div>
                     </div>
                     {/* Additional Branches/Offices Address Input */}
@@ -235,7 +244,7 @@ const BusinessDetail = ({
                             placeholder="Enter Your Street Address"
                             invalid={!!errors.additionalAddress}
                         />
-                         <p className="text-red-600">
+                        <p className="text-red-600">
                             {errors.additionalAddress?.message?.toString()}
                         </p>
                     </div>
@@ -252,9 +261,9 @@ const BusinessDetail = ({
                                 placeholder="e.g Punjab"
                                 invalid={!!errors.additionalState}
                             />
-                             <p className="text-red-600">
-                            {errors.additionalState?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.additionalState?.message?.toString()}
+                            </p>
                         </div>
                         {/* Additional Branches/Offices City Input */}
                         <div className="mb-4">
@@ -267,9 +276,9 @@ const BusinessDetail = ({
                                 placeholder="e.g Lahore"
                                 invalid={!!errors.additionalCity}
                             />
-                             <p className="text-red-600">
-                            {errors.additionalCity?.message?.toString()}
-                        </p>
+                            <p className="text-red-600">
+                                {errors.additionalCity?.message?.toString()}
+                            </p>
                         </div>
                     </div>
 

@@ -146,6 +146,8 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('primaryPOCMobile')}
                                 placeholder="e.g 0300-4568978"
                                 invalid={!!errors.primaryPOCMobile}
@@ -240,6 +242,8 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('secondaryPOCMobile')}
                                 placeholder="e.g 0300-4568978"
                                 invalid={!!errors.secondaryPOCMobile}
@@ -273,7 +277,7 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
-                            value={secondaryPOCCnic}
+                                value={secondaryPOCCnic}
                                 {...register('secondaryPOCCnic')}
                                 placeholder="e.g 31234-123456-7"
                                 invalid={!!errors.secondaryPOCCnic}
@@ -331,7 +335,7 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
-                            value={agreementDetailsCnic}
+                                value={agreementDetailsCnic}
                                 {...register('agreementDetailsCnic')}
                                 placeholder="e.g 31234-123456-7"
                                 invalid={!!errors.agreementDetailsCnic}
@@ -385,6 +389,8 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('agreementDetailsMobile')}
                                 placeholder="e.g 0300-12345678"
                                 invalid={!!errors.agreementDetailsMobile}
@@ -484,7 +490,7 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
-                            value={declarationCnic}
+                                value={declarationCnic}
                                 {...register('declarationCnic')}
                                 placeholder="e.g  34225-1234567-8"
                                 invalid={!!errors.declarationCnic}
@@ -538,6 +544,8 @@ const OperationsDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
                                 {...register('declarationMobile')}
                                 placeholder="e.g 030012345678"
                                 invalid={!!errors.declarationMobile}

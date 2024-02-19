@@ -66,7 +66,7 @@ const SignUpForm = (props: SignUpFormProps) => {
         apiSignUp(data)
             .then((res) => {
                 setLoading(false)
-                ShowToast("success","Success fully Registered")
+                ShowToast('success', 'Success fully Registered')
                 const redirectUrl = query.get(REDIRECT_URL_KEY)
                 navigate(
                     redirectUrl ? redirectUrl : appConfig.authenticatedEntryPath
@@ -80,7 +80,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                     error.response.data &&
                     error.response.data.errors
                 ) {
-                    ShowToast("danger","Some Field required")
+                    ShowToast('danger', 'Some Field required')
                     // Set the server-side validation errors in the form state
                     const serverErrors = error.response.data.errors
                     for (const field in serverErrors) {
@@ -89,13 +89,12 @@ const SignUpForm = (props: SignUpFormProps) => {
                         })
                     }
                 } else if (error.response && error.response.status === 409) {
-                    ShowToast("warning","Email Already Registered")
+                    ShowToast('warning', 'Email Already Registered')
                     setMessage('Email Already Register')
                 } else {
                     setMessage('something Wrong')
                 }
             })
-
     }
     const formatOptionLabel = ({ value, dialCode }: Country) => (
         <div>
@@ -114,6 +113,11 @@ const SignUpForm = (props: SignUpFormProps) => {
         setCNIC(formattedInput)
     }
 
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const input = event.target.value.slice(0, 10)
+        setValue('phone', input)
+    }
+
     return (
         <div className={className}>
             {/* <ToastContainer/> */}
@@ -130,7 +134,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             {...register('fullName')}
                             invalid={!!errors.fullName}
                             placeholder="Enter Your Full Name"
-                            type='text'
+                            type="text"
                         />
                         <p className="text-red-600">
                             {errors.fullName?.message?.toString()}
@@ -144,7 +148,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             {...register('organizationName')}
                             invalid={!!errors.organizationName}
                             placeholder="Enter Your Organization"
-                            type='text'
+                            type="text"
                         />
                         <p className="text-red-600">
                             {errors.organizationName?.message?.toString()}
@@ -157,7 +161,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             value={cnic}
                             placeholder="e.g 31234-123456-7"
                             invalid={!!errors.cnic}
-                            type='text'
+                            type="text"
                             onChange={handleCNICChange}
                         />
                         <p className="text-red-600">
@@ -179,6 +183,9 @@ const SignUpForm = (props: SignUpFormProps) => {
                             <Input
                                 {...register('phone')}
                                 placeholder="Enter Your Phone"
+                                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
+                                onInput={handlePhoneChange}
                             />
                         </InputGroup>
                         {/* {watch('countryCode') &&
@@ -188,7 +195,8 @@ const SignUpForm = (props: SignUpFormProps) => {
                                 </span>
                             )} */}
                         <p className="text-red-600">
-                            {errors.phone?.message?.toString()}
+                            {errors.phone?.message?.toString() ||
+                                errors.countryCode?.message?.toString()}
                         </p>
                     </div>
 
@@ -198,7 +206,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             {...register('email')}
                             invalid={!!errors.email}
                             placeholder="e.g example@domain.com"
-                            type='email'
+                            type="email"
                         />
                         <p className="text-red-600">
                             {errors.email?.message?.toString()}
@@ -210,7 +218,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             {...register('password')}
                             invalid={!!errors.password}
                             placeholder="Enter Your Password"
-                            type='password'
+                            type="password"
                         />
                         <p className="text-red-600">
                             {errors.password?.message?.toString()}
@@ -224,7 +232,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                             {...register('confirmPassword')}
                             invalid={!!errors.confirmPassword}
                             placeholder="Enter Your Password Again"
-                            type='password'
+                            type="password"
                         />
                         <p className="text-red-600">
                             {errors.confirmPassword?.message?.toString()}

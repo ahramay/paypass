@@ -9,7 +9,12 @@ export const generateMerchantInfoSchema = (directorsCheckBox:boolean,saleCheckBo
         nationalTaxNumber: yup.string().required("National Tax Number (NTN) is Required"),
         incorporationRegulatoryAuthorityName: yup.string().required("Regulatory Authority Name is Required"),
         ceoName: yup.string().required("Ceo Name Is Required"),
-        ceoCNIC: yup.string().required("CNIC is Required")
+        ceoCNIC: yup.string().required("CNIC is Required") .test('no-leading-zero', 'CNIC cannot start with 0', (value) => {
+          if (value && value.charAt(0) === '0') {
+              return false
+          }
+          return true
+      })
         .matches(/^[0-9]{5}-[0-9]{7}-[0-9]$/, "Invalid CNIC format. It should be in the format XXXXX-XXXXXXX-X"),
         CeoMobile:  yup.string().required("Mobile number is Required").matches(/^\d{12}$/,'Please enter a valid 12-digit phone number')
         .min(10, "Mobile number must be at least 10 characters")
@@ -24,7 +29,12 @@ export const generateMerchantInfoSchema = (directorsCheckBox:boolean,saleCheckBo
       baseSchema = baseSchema.shape({
         directors: yup.array().of(yup.object({
             name: yup.string().required("Director Name is Required"),
-            cnic: yup.string().required("CNIC is Required")
+            cnic: yup.string().required("CNIC is Required") .test('no-leading-zero', 'CNIC cannot start with 0', (value) => {
+              if (value && value.charAt(0) === '0') {
+                  return false
+              }
+              return true
+          })
             .matches(/^[0-9]{5}-[0-9]{7}-[0-9]$/, "Invalid CNIC format. It should be in the format XXXXX-XXXXXXX-X"),            
             mobile: yup.string().required("Mobile number is Required").matches(/^\d{12}$/,'Please enter a valid 12-digit phone number')
             .min(10, "Mobile number must be at least 10 characters")
