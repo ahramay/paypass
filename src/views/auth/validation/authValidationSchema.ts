@@ -32,7 +32,7 @@ export const SignUpValidationSchema: Yup.ObjectSchema<ISignUpForm> =
                 return true
             })
             .matches(
-                /^[1-9]\d{4}-\d{7}-\d{1}$/,
+                /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/,
                 'Invalid CNIC format, should be like 12345-1234567-1'
             ),
         countryCode: Yup.string().required('Please select a country'),

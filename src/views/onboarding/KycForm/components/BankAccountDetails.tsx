@@ -38,12 +38,7 @@ const BankDetails = ({
     }
     const [loading, setLoading] = useState<boolean | false>(false)
 
-    const {
-        handleSubmit,
-        register,
-        setValue,
-        formState: { errors },
-    } = useForm({
+    const { handleSubmit, register, setValue, getValues, formState } = useForm({
         resolver: yupResolver(bankDetailsSchema),
         defaultValues: {
             bankName: data.bankName,
@@ -55,6 +50,21 @@ const BankDetails = ({
             branchCity: data.branchCity,
         },
     })
+    const { errors } = formState
+
+    const disableField = (fieldNames: (keyof FormModel)[]): boolean => {
+        return fieldNames.some((fieldName) => !!errors[fieldName]) || loading
+    }
+
+    const handleSetValues = (
+        field: keyof FormModel,
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const value = event.target.value.trim()
+        setValue(field, value, {
+            shouldValidate: true,
+        })
+    }
 
     const onSubmit = (data: any) => {
         setLoading(true)
@@ -71,6 +81,7 @@ const BankDetails = ({
                 setLoading(false)
             })
     }
+    
     return (
         <>
             <div className="mb-8">
@@ -93,6 +104,9 @@ const BankDetails = ({
                             {...register('bankName')}
                             placeholder="Enter Your Bank Name"
                             invalid={!!errors.bankName}
+                            onChange={(e) => {
+                                handleSetValues('bankName', e)
+                            }}
                         />
                         <p className="text-red-600">
                             {errors.bankName?.message?.toString()}
@@ -110,6 +124,14 @@ const BankDetails = ({
                                 {...register('accountTitle')}
                                 placeholder="Aiza Khan"
                                 invalid={!!errors.accountTitle}
+                                onChange={(e) => {
+                                    handleSetValues('accountTitle', e)
+                                }}
+                                disabled={
+                                    disableField(['bankName']) ||
+                                    getValues('bankName') == undefined ||
+                                    getValues('bankName')?.length === 0
+                                }
                             />
                             <p className="text-red-600">
                                 {errors.accountTitle?.message?.toString()}
@@ -122,11 +144,20 @@ const BankDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                {...register('accountNumber')}
+                                onChange={(e) => {
+                                    handleSetValues('accountNumber', e)
+                                }}
                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 type="number"
-                                {...register('accountNumber')}
                                 placeholder="e.g 3251-555584255-88"
                                 invalid={!!errors.accountNumber}
+                                disabled={
+                                    disableField([
+                                        'bankName',
+                                        'accountTitle',
+                                    ]) || getValues('accountTitle') == undefined
+                                }
                             />
                             <p className="text-red-600">
                                 {errors.accountNumber?.message?.toString()}
@@ -142,6 +173,16 @@ const BankDetails = ({
                         </label>
                         <Input
                             {...register('iban')}
+                            onChange={(e) => {
+                                handleSetValues('iban', e)
+                            }}
+                            disabled={
+                                disableField([
+                                    'bankName',
+                                    'accountTitle',
+                                    'accountNumber',
+                                ]) || getValues('accountNumber') == undefined
+                            }
                             placeholder="Enter your IBAN"
                             invalid={!!errors.iban}
                         />
@@ -159,8 +200,19 @@ const BankDetails = ({
                             </label>
                             <Input
                                 {...register('branchName')}
+                                onChange={(e) => {
+                                    handleSetValues('branchName', e)
+                                }}
                                 placeholder="Enter Your Branch Name"
                                 invalid={!!errors.branchName}
+                                disabled={
+                                    disableField([
+                                        'bankName',
+                                        'accountTitle',
+                                        'accountNumber',
+                                        'iban',
+                                    ]) || getValues('iban') == undefined
+                                }
                             />
                             <p className="text-red-600">
                                 {errors.branchName?.message?.toString()}
@@ -173,9 +225,21 @@ const BankDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <Input
+                                {...register('branchCode')}
+                                onChange={(e) => {
+                                    handleSetValues('branchCode', e)
+                                }}
+                                disabled={
+                                    disableField([
+                                        'bankName',
+                                        'accountTitle',
+                                        'accountNumber',
+                                        'iban',
+                                        'branchName',
+                                    ]) || getValues('branchName') == undefined
+                                }
                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 type="number"
-                                {...register('branchCode')}
                                 placeholder="Enter Your Branch Code"
                                 invalid={!!errors.branchCode}
                             />
@@ -194,8 +258,21 @@ const BankDetails = ({
                             </label>
                             <Input
                                 {...register('branchCity')}
+                                disabled={
+                                    disableField([
+                                        'bankName',
+                                        'accountTitle',
+                                        'accountNumber',
+                                        'iban',
+                                        'branchName',
+                                        'branchCode',
+                                    ]) || getValues('branchCode') == undefined
+                                }
                                 placeholder="Enter Your Branch City"
                                 invalid={!!errors.branchCity}
+                                onChange={(e) => {
+                                    handleSetValues('branchCity', e)
+                                }}
                             />
                             <p className="text-red-600">
                                 {errors.branchCity?.message?.toString()}
@@ -208,6 +285,17 @@ const BankDetails = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <DatePicker
+                                disabled={
+                                    disableField([
+                                        'bankName',
+                                        'accountTitle',
+                                        'accountNumber',
+                                        'iban',
+                                        'branchName',
+                                        'branchCode',
+                                        'branchCity',
+                                    ]) || getValues('branchCity') == undefined
+                                }
                                 minDate={maxPastDate}
                                 maxDate={maxFutureDate}
                                 inputFormat="DD/MM/YYYY"

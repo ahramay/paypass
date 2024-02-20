@@ -154,9 +154,9 @@ const MerchantInformation = ({
                             isSearchable
                             options={typeOfOrganizationSelection}
                         />
-                        {/* <p className="text-red-600">
-                            {errors.legalName?.message?.toString()}
-                        </p> */}
+                        <p className="text-red-600">
+                            {errors.typeOfOrganization?.message?.toString()}
+                        </p>
                     </div>
 
                     {/* Merchant Brand Name Input */}
@@ -241,6 +241,7 @@ const MerchantInformation = ({
                                 minDate={maxPastDate}
                                 maxDate={maxFutureDate}
                                 placeholder="Select Your Incorporation/NTN Date"
+                                onChange={() => {}}
                             />
                         </div>
                     </div>
@@ -330,10 +331,19 @@ const MerchantInformation = ({
                                         <span className="text-red-600">*</span>
                                     </label>
                                     <DatePicker
+                                        {...register('ntnIssueDate')}
                                         minDate={maxPastDate}
                                         maxDate={maxFutureDate}
                                         placeholder="Select Your Sales Tax Registration Date"
+                                        onChange={(e) => {
+                                            const value = e
+                                            console.log(value)
+                                            // setValue('ntnIssueDate', value)
+                                        }}
                                     />
+                                    <p className="text-red-600">
+                                        {errors.ntnIssueDate?.message?.toString()}
+                                    </p>
                                 </div>
                             </div>
                             {/* Regulatory Authority Name Input */}

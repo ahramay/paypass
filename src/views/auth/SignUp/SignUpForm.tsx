@@ -51,9 +51,32 @@ const SignUpForm = (props: SignUpFormProps) => {
         setError,
         handleSubmit,
         setValue,
-        formState: { errors },
-    } = useForm<ISignUpForm>({ resolver: yupResolver(SignUpValidationSchema) })
+        clearErrors,
+        getValues,
+        formState,
+    } = useForm<ISignUpForm>({
+        resolver: yupResolver(SignUpValidationSchema),
+        defaultValues: {
+            fullName: undefined,
+            organizationName: undefined,
+            cnic: undefined,
+            countryCode: undefined,
+            phone: undefined,
+            email: undefined,
+            password: undefined,
+            confirmPassword: undefined,
+        },
+    })
     // { resolver: yupResolver(SignUpValidationSchema) }
+
+    const { errors } = formState
+
+    const disableField = (fieldNames: (keyof ISignUpForm)[]): boolean => {
+        return (
+            fieldNames.some((fieldName) => !!errors[fieldName]) || disableSubmit
+        )
+    }
+
     const [message, setMessage] = useTimeOutMessage()
     const query = useQuery()
     const navigate = useNavigate()
@@ -110,6 +133,14 @@ const SignUpForm = (props: SignUpFormProps) => {
     const handleCNICChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target.value
         const formattedInput = formatCNIC(input)
+
+        setValue('cnic', formattedInput, {
+            shouldValidate: true,
+        })
+
+        // Clear CNIC error when CNIC value changes
+        clearErrors('cnic')
+
         setCNIC(formattedInput)
     }
 
@@ -117,6 +148,18 @@ const SignUpForm = (props: SignUpFormProps) => {
         const input = event.target.value.slice(0, 10)
         setValue('phone', input)
     }
+    // Create disable form conditions
+    // const disableOrganizationName = !!errors.fullName?.message || formData.fullName === ''
+    // const disableCnic = !!errors.organizationName?.message || formData.organizationName === ''
+    // const disablePhone = !!errors.cnic?.message || cnic === ''
+    // const disableEmail =
+    //     !!errors.countryCode?.message ||
+    //     !!errors.phone?.message ||
+    //     formData.countryCode === '' ||
+    //     formData.phone === ''
+    // const disablePassword = !!errors.email?.message || formData.email === ''
+    // const disableConfirmPassword =
+    //     !!errors.password?.message || formData.password === ''
 
     return (
         <div className={className}>
@@ -135,6 +178,12 @@ const SignUpForm = (props: SignUpFormProps) => {
                             invalid={!!errors.fullName}
                             placeholder="Enter Your Full Name"
                             type="text"
+                            onChange={(e) => {
+                                const value = e.target.value.trim()
+                                setValue('fullName', value, {
+                                    shouldValidate: true,
+                                })
+                            }}
                         />
                         <p className="text-red-600">
                             {errors.fullName?.message?.toString()}
@@ -149,6 +198,16 @@ const SignUpForm = (props: SignUpFormProps) => {
                             invalid={!!errors.organizationName}
                             placeholder="Enter Your Organization"
                             type="text"
+                            disabled={
+                                disableField(['fullName']) ||
+                                getValues('fullName') == undefined
+                            }
+                            onChange={(e) => {
+                                const value = e.target.value.trim()
+                                setValue('organizationName', value, {
+                                    shouldValidate: true,
+                                })
+                            }}
                         />
                         <p className="text-red-600">
                             {errors.organizationName?.message?.toString()}
@@ -163,6 +222,12 @@ const SignUpForm = (props: SignUpFormProps) => {
                             invalid={!!errors.cnic}
                             type="text"
                             onChange={handleCNICChange}
+                            disabled={
+                                disableField([
+                                    'organizationName',
+                                    'fullName',
+                                ]) || getValues('organizationName') == undefined
+                            }
                         />
                         <p className="text-red-600">
                             {errors.cnic?.message?.toString()}
@@ -172,19 +237,48 @@ const SignUpForm = (props: SignUpFormProps) => {
                         <label className="form-label mb-2">Phone #:</label>
                         <InputGroup>
                             <Select
+                                isDisabled={
+                                    disableField([
+                                        'cnic',
+                                        'organizationName',
+                                        'fullName',
+                                    ]) || getValues('cnic') == undefined
+                                }
                                 isSearchable
                                 {...register('countryCode')}
                                 className="w-48"
                                 options={countryList}
                                 value={selectedCountryCode}
                                 formatOptionLabel={formatOptionLabel}
-                                onChange={handleCountryChange}
+                                onChange={(e) => {
+                                    handleCountryChange(e)
+                                    const value = e?.value?.trim()
+                                    if (value) {
+                                        setValue('countryCode', value, {
+                                            shouldValidate: true,
+                                        })
+                                    }
+                                }}
                             />
                             <Input
+                                disabled={
+                                    disableField([
+                                        'cnic',
+                                        'organizationName',
+                                        'fullName',
+                                    ]) || getValues('cnic') == undefined
+                                }
                                 {...register('phone')}
                                 placeholder="Enter Your Phone"
                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 type="number"
+                                onChange={(e) => {
+                                    const value = e.target.value.trim()
+
+                                    setValue('phone', value, {
+                                        shouldValidate: true,
+                                    })
+                                }}
                                 onInput={handlePhoneChange}
                             />
                         </InputGroup>
@@ -207,6 +301,23 @@ const SignUpForm = (props: SignUpFormProps) => {
                             invalid={!!errors.email}
                             placeholder="e.g example@domain.com"
                             type="email"
+                            onChange={(e) => {
+                                const value = e.target.value.trim()
+                                setValue('email', value, {
+                                    shouldValidate: true,
+                                })
+                            }}
+                            disabled={
+                                disableField([
+                                    'cnic',
+                                    'organizationName',
+                                    'fullName',
+                                    'phone',
+                                    'countryCode',
+                                ]) ||
+                                getValues('phone') == undefined ||
+                                getValues('countryCode') == undefined
+                            }
                         />
                         <p className="text-red-600">
                             {errors.email?.message?.toString()}
@@ -215,10 +326,26 @@ const SignUpForm = (props: SignUpFormProps) => {
                     <div className="mb-4">
                         <label className="form-label mb-2">Password:</label>
                         <Input
+                            disabled={
+                                disableField([
+                                    'cnic',
+                                    'organizationName',
+                                    'fullName',
+                                    'phone',
+                                    'countryCode',
+                                    'email',
+                                ]) || getValues('email') == undefined
+                            }
                             {...register('password')}
                             invalid={!!errors.password}
                             placeholder="Enter Your Password"
                             type="password"
+                            onChange={(e) => {
+                                const value = e.target.value.trim()
+                                setValue('password', value, {
+                                    shouldValidate: true,
+                                })
+                            }}
                         />
                         <p className="text-red-600">
                             {errors.password?.message?.toString()}
@@ -229,10 +356,27 @@ const SignUpForm = (props: SignUpFormProps) => {
                             Confirm Password:
                         </label>
                         <Input
+                            disabled={
+                                disableField([
+                                    'cnic',
+                                    'organizationName',
+                                    'fullName',
+                                    'phone',
+                                    'countryCode',
+                                    'email',
+                                    'password',
+                                ]) || getValues('password') == undefined
+                            }
                             {...register('confirmPassword')}
                             invalid={!!errors.confirmPassword}
                             placeholder="Enter Your Password Again"
                             type="password"
+                            onChange={(e) => {
+                                const value = e.target.value.trim()
+                                setValue('confirmPassword', value, {
+                                    shouldValidate: true,
+                                })
+                            }}
                         />
                         <p className="text-red-600">
                             {errors.confirmPassword?.message?.toString()}
