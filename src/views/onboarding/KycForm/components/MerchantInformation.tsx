@@ -154,9 +154,9 @@ const MerchantInformation = ({
                             isSearchable
                             options={typeOfOrganizationSelection}
                         />
-                        <p className="text-red-600">
+                        {/* <p className="text-red-600">
                             {errors.typeOfOrganization?.message?.toString()}
-                        </p>
+                        </p> */}
                     </div>
 
                     {/* Merchant Brand Name Input */}

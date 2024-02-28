@@ -12,7 +12,7 @@ const AuthorityGuard = (props: AuthorityGuardProps) => {
 
     const roleMatched = useAuthority(userAuthority, authority)
 
-    return <>{roleMatched ? children : <Navigate to="/access-denied" />}</>
+    return <>{roleMatched ? children : <Navigate to="/onboarding/kyc-form" />}</>
 }
 
 export default AuthorityGuard

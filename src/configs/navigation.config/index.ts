@@ -53,6 +53,27 @@ const navigationConfig: NavigationTree[] = [
                 subMenu: [],
             },
             {
+                key: 'merchantMenu.merchantuser',
+                path: '/merchantuser',
+                title: 'merchant Client',
+                translateKey: 'nav.merchant.menu.merchantUser.merchantUser',
+                icon: 'voucherList',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: MERCHANT_AUTHORITY,
+                subMenu: [],
+            },
+         
+            {
+                key: 'merchantMenu.merchantuserlist',
+                path: '/merchantuserlist',
+                title: 'merchant Client List',
+                translateKey: 'nav.merchant.menu.merchantUserlist.merchantUserlist',
+                icon: 'voucherList',
+                type: NAV_ITEM_TYPE_ITEM,
+                authority: MERCHANT_AUTHORITY,
+                subMenu: [],
+            },
+            {
                 key: 'merchantMenu.invoices',
                 path: '/invoices',
                 title: 'Invoices',

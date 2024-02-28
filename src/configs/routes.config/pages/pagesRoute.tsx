@@ -1,6 +1,6 @@
 import { lazy } from 'react'
 import { ONBOARDING_PATH } from '@/constants/route.constant'
-import { ADMIN, USER } from '@/constants/roles.constant'
+// import { ADMIN, USER } from '@/constants/roles.constant'
 import type { Routes } from '@/@types/routes'
 
 const pages: Routes = [
