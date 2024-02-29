@@ -20,11 +20,9 @@ import { beforeUploadMerchantLogo } from '../config/upload/merchantLogoUpload'
 import Checkbox from '@/components/ui/Checkbox/Checkbox'
 import { generateMerchantInfoSchema } from '../../validation/merchantInformationSchema'
 import formatCNIC from '@/utils/formatCNIC'
-import { apiOnboardingStepOne } from '@/services/onBoarding/onBoardingServices'
-import ShowToast from '@/components/ui/Notification/ShowToast'
 import { ConfirmDialog } from '@/components/shared'
 import ConfirmToProceed from '../../Dialog/ConfirmToProcced'
-
+import MerchantInformationModal from './MerchantInformationModal'
 type FormModel = MerchantInformationType
 
 type MerchantInformationProps = {
@@ -51,12 +49,13 @@ const MerchantInformation = ({
     const [cnic, setCNIC] = useState<string>('')
     const [loading, setLoading] = useState<boolean | false>(false)
     const [dialogIsOpen, setIsOpen] = useState(false)
-
+    const [openModal, setOpenModal] = useState<boolean | false>(false)
     const {
         control,
         handleSubmit,
         register,
         setValue,
+        getValues,
         formState: { errors },
     } = useForm<any>({
         resolver: yupResolver(
@@ -93,25 +92,33 @@ const MerchantInformation = ({
         }
     }
     const onSubmit = (data: any) => {
-        setLoading(true)
-        apiOnboardingStepOne(data)
-            .then((res) => {
-                onNext(data)
-                ShowToast('success', 'Merchant Information Success fully saved')
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        handleOpenModal()
+        // setLoading(true)
+        // apiOnboardingStepOne(data)
+        //     .then((res) => {
+        //         onNext(data)
+        //         ShowToast('success', 'Merchant Information Success fully saved')
+        //         console.log(res)
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
+        //     .finally(() => {
+        //         setLoading(false)
+        //     })
     }
 
     const handleCNICChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const input = event.target.value
         const formattedInput = formatCNIC(input)
         setCNIC(formattedInput)
+    }
+
+    const handleCloseModal = () => {
+        setOpenModal(false)
+    }
+    const handleOpenModal = () => {
+        setOpenModal(true)
     }
 
     return (
@@ -150,9 +157,15 @@ const MerchantInformation = ({
                             <span className="text-red-600">*</span>
                         </label>
                         <Select
-                            //  {...register("typeOfOrganization")}
+                            {...register('typeOfOrganization')}
                             isSearchable
                             options={typeOfOrganizationSelection}
+                            onChange={(selectValue: any) => {
+                                setValue(
+                                    'typeOfOrganization',
+                                    selectValue.value
+                                )
+                            }}
                         />
                         {/* <p className="text-red-600">
                             {errors.typeOfOrganization?.message?.toString()}
@@ -238,11 +251,23 @@ const MerchantInformation = ({
                                 <span className="text-red-600">*</span>
                             </label>
                             <DatePicker
+                                {...register('IncorporateNtnIssueDate')}
                                 minDate={maxPastDate}
                                 maxDate={maxFutureDate}
                                 placeholder="Select Your Incorporation/NTN Date"
-                                onChange={() => {}}
+                                onChange={(e) => {
+                                    setValue('IncorporateNtnIssueDate', e)
+                                }}
                             />
+                            {/* <DatePicker
+                                {...register('IncorporateNtnIssueDate')}
+                                placeholder="Select Your Incorporation/NTN Date"
+                                minDate={maxPastDate}
+                                maxDate={maxFutureDate}
+                                onChange={(e) => {
+                                    setValue('IncorporateNtnIssueDate', e)
+                                }}
+                            /> */}
                         </div>
                     </div>
                     {/*  Regulatory Authority Name Input */}
@@ -336,9 +361,7 @@ const MerchantInformation = ({
                                         maxDate={maxFutureDate}
                                         placeholder="Select Your Sales Tax Registration Date"
                                         onChange={(e) => {
-                                            const value = e
-                                            console.log(value)
-                                            // setValue('ntnIssueDate', value)
+                                            setValue('ntnIssueDate', e)
                                         }}
                                     />
                                     <p className="text-red-600">
@@ -567,7 +590,7 @@ const MerchantInformation = ({
                         </div>
                     </div>
                     {/* ---------- Directors CheckBox -------------- */}
-                    <Checkbox
+                    {/* <Checkbox
                         className="py-4"
                         onChange={() => {
                             setDirectorCheckBox(!directorsCheckBox)
@@ -585,7 +608,7 @@ const MerchantInformation = ({
                         }}
                     >
                         Add Directors
-                    </Checkbox>
+                    </Checkbox> */}
                     {directorsCheckBox && (
                         <div>
                             {/* -------------------------------------Director(s)------------------------------------------- */}
@@ -840,6 +863,13 @@ const MerchantInformation = ({
                     </div>
                 </FormContainer>
             </form>
+            <MerchantInformationModal
+                openModal={openModal}
+                onRequestClose={handleCloseModal}
+                FormData={getValues}
+                onNextChange={onNextChange}
+                currentStepStatus={currentStepStatus}
+            />
         </>
     )
 }
