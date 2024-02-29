@@ -5,8 +5,11 @@ import Button from '@/components/ui/Button'
 import { apiOnboardingStepOne } from '@/services/onBoarding/onBoardingServices'
 import type { MerchantInformation as MerchantInformationType } from '../store'
 import ShowToast from '@/components/ui/Notification/ShowToast'
-import DatePicker from '@/components/ui/DatePicker' // Import your DatePicker component
+import { useNavigate } from 'react-router-dom'
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
+import { MyDocument } from '../pdf/merchantInformationPdf'
 
+// import { PDFViewer, PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf-viewer/pdfjs-dist'/;
 interface MerchantInformationModalProps {
     openModal: boolean
     onRequestClose: () => void
@@ -55,7 +58,7 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
             width: '600px',
         },
     }
-
+    const navigate = useNavigate()
     const onNext = (values: MerchantInformationType) => {
         onNextChange?.(values, 'merchantInformation')
     }
@@ -72,6 +75,7 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
             console.log(error)
         } finally {
             setLoading(false)
+            navigate('/home')
         }
     }
 
@@ -80,7 +84,9 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
             <h1 className="text-center text-indigo-700 mt-3 mb-6 uppercase text-2xl font-bold">
                 Merchant Information
             </h1>
-
+            {/* <PDFViewer> */}
+            {/* <MyDocument data={userData} /> */}
+            {/* </PDFViewer> */}
             <div className="mb-6">
                 <div className="text-lg font-bold mb-3">
                     <p>
@@ -223,10 +229,24 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
                 <Button variant="solid" onClick={onRequestClose}>
                     EDIT
                 </Button>
-                <Button className="flex justify-center  align-middle py-3 gap-2">
-                    <IoMdDownload className="m-0 p-0" size={18} color="#000" />
-                    PDF
-                </Button>
+                <PDFDownloadLink
+                    document={<MyDocument data={userData} />}
+                    fileName="merchant_information.pdf"
+                    className="flex justify-center align-middle"
+                >
+                    {({ loading }) => (
+                        <Button>
+                            {loading ? (
+                                'Loading document...'
+                            ) : (
+                                <div className="flex items-center gap-2">
+                                    <IoMdDownload size={18} />
+                                    <span>PDF</span>
+                                </div>
+                            )}
+                        </Button>
+                    )}
+                </PDFDownloadLink>
                 <Button
                     onClick={() => submitData(userData)}
                     variant="solid"

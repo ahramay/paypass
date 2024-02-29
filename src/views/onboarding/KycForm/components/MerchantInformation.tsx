@@ -23,6 +23,7 @@ import formatCNIC from '@/utils/formatCNIC'
 import { ConfirmDialog } from '@/components/shared'
 import ConfirmToProceed from '../../Dialog/ConfirmToProcced'
 import MerchantInformationModal from './MerchantInformationModal'
+
 type FormModel = MerchantInformationType
 
 type MerchantInformationProps = {
@@ -120,7 +121,7 @@ const MerchantInformation = ({
     const handleOpenModal = () => {
         setOpenModal(true)
     }
-
+    const check = getValues()
     return (
         <>
             <ConfirmToProceed
@@ -259,15 +260,6 @@ const MerchantInformation = ({
                                     setValue('IncorporateNtnIssueDate', e)
                                 }}
                             />
-                            {/* <DatePicker
-                                {...register('IncorporateNtnIssueDate')}
-                                placeholder="Select Your Incorporation/NTN Date"
-                                minDate={maxPastDate}
-                                maxDate={maxFutureDate}
-                                onChange={(e) => {
-                                    setValue('IncorporateNtnIssueDate', e)
-                                }}
-                            /> */}
                         </div>
                     </div>
                     {/*  Regulatory Authority Name Input */}
