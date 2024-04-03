@@ -6,19 +6,15 @@ import { apiOnboardingStepFour } from '@/services/onBoarding/onBoardingServices'
 import type { BankDetails as BankDetailsType } from '../store'
 import ShowToast from '@/components/ui/Notification/ShowToast'
 import { useNavigate } from 'react-router-dom'
-import { PDFViewer,PDFDownloadLink } from '@react-pdf/renderer'
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
 import { MyDocument } from '../pdf/merchantInformationPdf'
-import {
-    MerchantInfo,
-    BusinessDetail,
-} from '../../interface/onBoardingFormInterface'
+import { BankDetail } from '../../interface/onBoardingFormInterface'
 import { useSelector } from 'react-redux'
 // import { PDFViewer, PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf-viewer/pdfjs-dist'/;
 interface MerchantInformationModalProps {
     openModal: boolean
     onRequestClose: () => void
-    MerchantInformation?: () => MerchantInfo
-    bussinessDetail?: () => BusinessDetail
+    BankDetails?: () => BankDetail
     onNextChange?: (values: BankDetailsType, formName: string) => void
     currentStepStatus?: string
 }
@@ -27,6 +23,7 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
     openModal,
     onRequestClose,
     onNextChange,
+    BankDetails,
     currentStepStatus,
 }) => {
     const [loading, setLoading] = useState<boolean | false>(false)
@@ -49,14 +46,14 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
     }
 
     const formData = useSelector((state: any) => state)
+    console.log(formData)
     const merchantInfo =
         formData.accountDetailForm.data.formData.merchantInformation
     const BussinessDeatil =
         formData.accountDetailForm.data.formData.businessDetails
     const operationsDetails =
         formData.accountDetailForm.data.formData.operationsDetails
-    const bankAccountDetail =
-        formData.accountDetailForm.data.formData.bankDetails
+    const bankAccountDetail = BankDetails ? BankDetails() : null
 
     const submitData = async (data: any) => {
         setLoading(true)
@@ -70,9 +67,9 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
             <h1 className="text-center text-indigo-700 mt-3 mb-6 uppercase text-3xl font-bold">
                 Merchant Information
             </h1>
-            <PDFViewer>
-            <MyDocument data={formData.accountDetailForm.data.formData} /> 
-            </PDFViewer>
+            {/* <PDFViewer>
+                <MyDocument data={formData.accountDetailForm.data.formData} />
+            </PDFViewer> */}
             <div className="mb-6" style={{ color: 'black' }}>
                 <div className="text-lg font-semibold mb-3">
                     <div className="flex justify-between">
@@ -320,41 +317,39 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
                     <h3 className="text-center text-2xl font-bold mb-3">
                         Primary POC
                     </h3>
-                    <div className='font-semibold'>
+                    <div className="font-semibold">
+                        <p>
+                            Name :
+                            <span className="text-base font-medium">
+                                {operationsDetails?.primaryPOCName}
+                            </span>
+                        </p>
+                        <p>
+                            Mobile Number :
+                            <span className="text-base font-medium">
+                                {operationsDetails?.primaryPOCMobile}
+                            </span>
+                        </p>
 
-                    
-                    <p>
-                        Name :
-                        <span className="text-base font-medium">
-                            {operationsDetails?.primaryPOCName}
-                        </span>
-                    </p>
-                    <p>
-                        Mobile Number :
-                        <span className="text-base font-medium">
-                            {operationsDetails?.primaryPOCMobile}
-                        </span>
-                    </p>
-
-                    <p>
-                        Email :
-                        <span className="text-base font-medium">
-                            {operationsDetails?.primaryPOCEmail}
-                        </span>
-                    </p>
-                    <p>
-                        CNIC :
-                        <span className="text-base font-medium">
-                            {operationsDetails?.primaryPOCCnic}
-                        </span>
-                    </p>
-                    <p>
-                        Designation :
-                        <span className="text-base font-medium">
-                            {operationsDetails?.primaryPOCDesignation}
-                        </span>
-                    </p>
-                </div>
+                        <p>
+                            Email :
+                            <span className="text-base font-medium">
+                                {operationsDetails?.primaryPOCEmail}
+                            </span>
+                        </p>
+                        <p>
+                            CNIC :
+                            <span className="text-base font-medium">
+                                {operationsDetails?.primaryPOCCnic}
+                            </span>
+                        </p>
+                        <p>
+                            Designation :
+                            <span className="text-base font-medium">
+                                {operationsDetails?.primaryPOCDesignation}
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div className="mb-6 font-semibold">
                     <h3 className="text-center text-2xl font-bold mb-3">

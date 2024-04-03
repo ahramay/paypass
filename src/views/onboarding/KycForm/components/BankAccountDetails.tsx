@@ -72,8 +72,8 @@ const BankDetails = ({
         setLoading(true)
         apiOnboardingStepFour(data)
             .then((res) => {
-                // onNext(data)
                 handleOpenModal()
+                // onNext(data)
                 ShowToast('success', 'Bank Details Success fully saved')
             })
             .catch((err) => {
@@ -326,7 +326,7 @@ const BankDetails = ({
             <MerchantInformationModal
                 openModal={openModal}
                 onRequestClose={handleCloseModal}
-                // FormData={getValues}
+                BankDetails={getValues}
                 onNextChange={onNextChange}
                 // currentStepStatus={currentStepStatus}
             />

@@ -1,4 +1,5 @@
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
+import { MerchantInfo,BusinessDetail,OperationDetail,BankDetail } from '../../interface/onBoardingFormInterface'
 
 // Create styles
 const styles = StyleSheet.create({
@@ -30,31 +31,19 @@ const styles = StyleSheet.create({
 })
 interface DocumentProps {
     data: {
-        legalName: string
-        merchantBrandName: string
-        incorporationOrNtn: string
-        ntnIssueDate: string
-        incorporationRegulatoryAuthorityName: string
-        saleTaxRegulatoryAuthorityName: string
-        salesTaxRegistration: string
-        nationalTaxNumber: string
-        IncorporateNtnIssueDate: string
-        typeOfOrganization: string
-        ceoName: string
-        ceoCNIC: string
-        CeoMobile: string
-        ceoEmail: string
-        ceoAddress: string
-        ceoState: string
-        ceoCity: string
+        merchantInformation: MerchantInfo,
+        businessDetails:BusinessDetail
+        // operationsDetails:OperationDetail
+        // operationsDetails:
     }
 }
 
 export const MyDocument: React.FC<DocumentProps> = ({ data }) => {
-    // const merchantInfo = data?.merchantInformation
-    // const BussinessDeatil = data?.businessDetails
+    const merchantInfo = data?.merchantInformation
+    const BussinessDeatil = data?.businessDetails
     // const operationsDetails = data?.operationsDetails
-    // const bankAccountDetail = data?.bankDetails
+    // const bankAccountDetail = data?.operationsDetails
+    console.log(data)
     return (
         <Document>
             <Page style={styles.page} size="A4">
@@ -65,19 +54,19 @@ export const MyDocument: React.FC<DocumentProps> = ({ data }) => {
                     <Text>
                         legal Name :&nbsp;
                         <Text style={{ fontSize: '14px' }}>
-                            {data?.legalName}{' '}
+                            {merchantInfo?.legalName}{' '}
                         </Text>
                     </Text>
                     <Text>
                         Types Of Organization :&nbsp;
                         <Text style={{ fontSize: '14px' }}>
-                            {data?.typeOfOrganization}
+                            {merchantInfo?.typeOfOrganization}
                         </Text>
                     </Text>
                     <Text>
                         Merchant Brand Name :&nbsp;
                         <Text style={{ fontSize: '14px' }}>
-                            {data?.merchantBrandName}
+                            {merchantInfo?.merchantBrandName}
                         </Text>
                     </Text>
                 </View>
@@ -96,19 +85,21 @@ export const MyDocument: React.FC<DocumentProps> = ({ data }) => {
                         <Text>
                             Incorporation / NTN :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.incorporationOrNtn}
+                                {merchantInfo?.incorporationOrNtn}
                             </Text>
                         </Text>
                         <Text>
                             Incorporation / NTN Issue Date :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.IncorporateNtnIssueDate}
+                                {merchantInfo?.IncorporateNtnIssueDate}
                             </Text>
                         </Text>
                         <Text>
                             Regulatory Authority Name : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.incorporationRegulatoryAuthorityName}
+                                {
+                                    merchantInfo?.incorporationRegulatoryAuthorityName
+                                }
                             </Text>
                         </Text>
                     </View>
@@ -128,19 +119,19 @@ export const MyDocument: React.FC<DocumentProps> = ({ data }) => {
                         <Text>
                             Sales Tax Registration # :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.salesTaxRegistration}
+                                {merchantInfo?.salesTaxRegistration}
                             </Text>
                         </Text>
                         <Text>
                             Sales Tax Registration Issue Date :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ntnIssueDate}
+                                {merchantInfo?.ntnIssueDate}
                             </Text>
                         </Text>
                         <Text>
                             Regulatory Authority Name : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.saleTaxRegulatoryAuthorityName}
+                                {merchantInfo?.saleTaxRegulatoryAuthorityName}
                             </Text>
                         </Text>
                     </View>
@@ -160,7 +151,7 @@ export const MyDocument: React.FC<DocumentProps> = ({ data }) => {
                         <Text>
                             National Tax Number # / (NTN) : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.nationalTaxNumber}
+                                {merchantInfo?.nationalTaxNumber}
                             </Text>
                         </Text>
                     </View>
@@ -180,43 +171,43 @@ export const MyDocument: React.FC<DocumentProps> = ({ data }) => {
                         <Text>
                             Name :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ceoName}
+                                {merchantInfo?.ceoName}
                             </Text>
                         </Text>
                         <Text>
                             CNIC :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ceoCNIC}
+                                {merchantInfo?.ceoCNIC}
                             </Text>
                         </Text>
                         <Text>
                             Mobile :&nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.CeoMobile}
+                                {merchantInfo?.CeoMobile}
                             </Text>
                         </Text>
                         <Text>
                             Email : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ceoEmail}
+                                {merchantInfo?.ceoEmail}
                             </Text>
                         </Text>
                         <Text>
                             Address : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ceoAddress}
+                                {merchantInfo?.ceoAddress}
                             </Text>
                         </Text>
                         <Text>
                             Province/State : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ceoState}
+                                {merchantInfo?.ceoState}
                             </Text>
                         </Text>
                         <Text>
                             City : &nbsp;
                             <Text style={{ fontSize: '14px' }}>
-                                {data?.ceoCity}
+                                {merchantInfo?.ceoCity}
                             </Text>
                         </Text>
                     </View>
