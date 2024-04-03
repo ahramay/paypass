@@ -12,18 +12,22 @@ export interface Director {
 export interface MerchantInfo {
     legalName: string
     merchantBrandName: string
-    NTN: string
-    regulatoryAuthorityName: string
+    incorporationOrNtn: string
+    ntnIssueDate: string
+    incorporationRegulatoryAuthorityName: string
+    saleTaxRegulatoryAuthorityName: string
     salesTaxRegistration: string
     nationalTaxNumber: string
-    CeoName: string
+    IncorporateNtnIssueDate: string
+    typeOfOrganization: string
+    ceoName: string
     ceoCNIC: string
     CeoMobile: string
     ceoEmail: string
     ceoAddress: string
     ceoState: string
     ceoCity: string
-    IncorporateNtnIssueDate: string
+
     directors: Director[]
 }
 

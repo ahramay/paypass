@@ -95,7 +95,6 @@ const OperationsDetails = ({
             .then((res) => {
                 onNext(data)
                 ShowToast('success', 'Operation Details Success fully saved')
-                console.log(res)
             })
             .catch((err) => {
                 console.log(err)

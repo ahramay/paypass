@@ -22,7 +22,9 @@ import { generateMerchantInfoSchema } from '../../validation/merchantInformation
 import formatCNIC from '@/utils/formatCNIC'
 import { ConfirmDialog } from '@/components/shared'
 import ConfirmToProceed from '../../Dialog/ConfirmToProcced'
-import MerchantInformationModal from './MerchantInformationModal'
+import { apiOnboardingStepOne } from '@/services/onBoarding/onBoardingServices'
+import ShowToast from '@/components/ui/Notification/ShowToast'
+// import MerchantInformationModal from './MerchantInformationModal'
 
 type FormModel = MerchantInformationType
 
@@ -93,20 +95,19 @@ const MerchantInformation = ({
         }
     }
     const onSubmit = (data: any) => {
-        handleOpenModal()
-        // setLoading(true)
-        // apiOnboardingStepOne(data)
-        //     .then((res) => {
-        //         onNext(data)
-        //         ShowToast('success', 'Merchant Information Success fully saved')
-        //         console.log(res)
-        //     })
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
-        //     .finally(() => {
-        //         setLoading(false)
-        //     })
+        setLoading(true)
+        apiOnboardingStepOne(data)
+            .then((res) => {
+                onNext(data)
+                ShowToast('success', 'Merchant Information Success fully saved')
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
     }
 
     const handleCNICChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,12 +116,6 @@ const MerchantInformation = ({
         setCNIC(formattedInput)
     }
 
-    const handleCloseModal = () => {
-        setOpenModal(false)
-    }
-    const handleOpenModal = () => {
-        setOpenModal(true)
-    }
     const check = getValues()
     return (
         <>
@@ -855,13 +850,6 @@ const MerchantInformation = ({
                     </div>
                 </FormContainer>
             </form>
-            <MerchantInformationModal
-                openModal={openModal}
-                onRequestClose={handleCloseModal}
-                FormData={getValues}
-                onNextChange={onNextChange}
-                currentStepStatus={currentStepStatus}
-            />
         </>
     )
 }

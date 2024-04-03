@@ -13,6 +13,7 @@ import { apiOnboardingStepFour } from '@/services/onBoarding/onBoardingServices'
 import ShowToast from '@/components/ui/Notification/ShowToast'
 import { yupResolver } from '@hookform/resolvers/yup'
 import bankDetailsSchema from '../../validation/bankDetailsValidationSchema'
+import MerchantInformationModal from './MerchantInformationModal'
 
 type FormModel = BankDetailsType
 
@@ -37,6 +38,7 @@ const BankDetails = ({
         onBackChange?.()
     }
     const [loading, setLoading] = useState<boolean | false>(false)
+    const [openModal, setOpenModal] = useState<boolean | false>(false)
 
     const { handleSubmit, register, setValue, getValues, formState } = useForm({
         resolver: yupResolver(bankDetailsSchema),
@@ -70,9 +72,9 @@ const BankDetails = ({
         setLoading(true)
         apiOnboardingStepFour(data)
             .then((res) => {
-                onNext(data)
+                // onNext(data)
+                handleOpenModal()
                 ShowToast('success', 'Bank Details Success fully saved')
-                console.log(res)
             })
             .catch((err) => {
                 console.log(err)
@@ -81,7 +83,13 @@ const BankDetails = ({
                 setLoading(false)
             })
     }
-    
+    const handleCloseModal = () => {
+        setOpenModal(false)
+    }
+    const handleOpenModal = () => {
+        setOpenModal(true)
+    }
+
     return (
         <>
             <div className="mb-8">
@@ -315,6 +323,13 @@ const BankDetails = ({
                     </div>
                 </FormContainer>
             </form>
+            <MerchantInformationModal
+                openModal={openModal}
+                onRequestClose={handleCloseModal}
+                // FormData={getValues}
+                onNextChange={onNextChange}
+                // currentStepStatus={currentStepStatus}
+            />
         </>
     )
 }
