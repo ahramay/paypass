@@ -7,9 +7,9 @@ import type { BankDetails as BankDetailsType } from '../store'
 import ShowToast from '@/components/ui/Notification/ShowToast'
 import { useNavigate } from 'react-router-dom'
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
-import { MyDocument } from '../pdf/merchantInformationPdf'
 import { BankDetail } from '../../interface/onBoardingFormInterface'
 import { useSelector } from 'react-redux'
+import { MyDocument } from '../pdf/merchantInformationPdf'
 // import { PDFViewer, PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf-viewer/pdfjs-dist'/;
 interface MerchantInformationModalProps {
     openModal: boolean
@@ -67,9 +67,6 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
             <h1 className="text-center text-indigo-700 mt-3 mb-6 uppercase text-3xl font-bold">
                 Merchant Information
             </h1>
-            {/* <PDFViewer>
-                <MyDocument data={formData.accountDetailForm.data.formData} />
-            </PDFViewer> */}
             <div className="mb-6" style={{ color: 'black' }}>
                 <div className="text-lg font-semibold mb-3">
                     <div className="flex justify-between">
@@ -548,9 +545,15 @@ const MerchantInformationModal: React.FC<MerchantInformationModalProps> = ({
                 </Button>
                 <PDFDownloadLink
                     document={
-                        <MyDocument
-                            data={formData.accountDetailForm.data.formData}
-                        />
+                        bankAccountDetail ? (
+                            <MyDocument
+                                data={formData.accountDetailForm.data.formData}
+                                bankDetails={bankAccountDetail}
+                            />
+                        ) : (
+                            // Render a loading indicator or error message when bankAccountDetail is null
+                            <div>Loading document...</div>
+                        )
                     }
                     fileName="merchant_information.pdf"
                     className="flex justify-center align-middle"

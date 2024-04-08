@@ -14,7 +14,7 @@ import ShowToast from '@/components/ui/Notification/ShowToast'
 import { yupResolver } from '@hookform/resolvers/yup'
 import bankDetailsSchema from '../../validation/bankDetailsValidationSchema'
 import MerchantInformationModal from './MerchantInformationModal'
-
+import { MyDocument } from '../pdf/merchantInformationPdf'
 type FormModel = BankDetailsType
 
 type BankDetailsProps = {
@@ -67,7 +67,7 @@ const BankDetails = ({
             shouldValidate: true,
         })
     }
-
+    
     const onSubmit = (data: any) => {
         setLoading(true)
         apiOnboardingStepFour(data)
@@ -89,7 +89,7 @@ const BankDetails = ({
     const handleOpenModal = () => {
         setOpenModal(true)
     }
-
+const bankAccountDetail = getValues()
     return (
         <>
             <div className="mb-8">
